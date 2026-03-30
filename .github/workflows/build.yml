@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RC-20-Clone-Windows-VST3
-          path: "build/RC20Clone_artefacts/Release/VST3/RC-20 Clone.vst3"
+          path: "build/RC20Clone_artefacts/Release/VST3"
 
   build-macos:
     name: macOS VST3 + AU
@@ -56,13 +56,13 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RC-20-Clone-macOS-VST3
-          path: "build/RC20Clone_artefacts/Release/VST3/RC-20 Clone.vst3"
+          path: "build/RC20Clone_artefacts/Release/VST3"
 
       - name: Upload AU
         uses: actions/upload-artifact@v4
         with:
           name: RC-20-Clone-macOS-AU
-          path: "build/RC20Clone_artefacts/Release/AU/RC-20 Clone.component"
+          path: "build/RC20Clone_artefacts/Release/AU"
 
   release:
     name: Attach to GitHub Release
