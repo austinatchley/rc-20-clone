@@ -1,0 +1,11 @@
+{
+    "clangd.arguments": [
+        "--compile-commands-dir=${workspaceFolder}/build",
+        "--background-index",
+        "--clang-tidy",
+        "--header-insertion=never"
+    ],
+    "editor.formatOnSave": true,
+    // Disable the Microsoft C++ extension's IntelliSense in favour of clangd
+    "C_Cpp.intelliSenseEngine": "disabled"
+}
