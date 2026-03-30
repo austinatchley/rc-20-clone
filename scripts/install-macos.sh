@@ -20,7 +20,7 @@ AU_DIR="/Library/Audio/Plug-Ins/Components"
 # Derive repo from git remote so the script works on any fork
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO=$(git -C "$SCRIPT_DIR" remote get-url origin 2>/dev/null \
-    | sed -E 's|.*github\.com[:/](.+?)(\.git)?$|\1|')
+    | sed -E 's|.*github\.com[:/]||; s|\.git$||')
 
 if [[ -z "$REPO" ]]; then
     echo "Error: could not determine GitHub repo from git remote." >&2
@@ -57,8 +57,8 @@ if [[ -z "$RUN_ID" ]]; then
 fi
 
 echo "Downloading artifacts from run $RUN_ID ..."
-gh run download "$RUN_ID" --repo "$REPO" --name "$ARTIFACT_VST3" --dir "$TMP_DIR"
-gh run download "$RUN_ID" --repo "$REPO" --name "$ARTIFACT_AU"   --dir "$TMP_DIR"
+gh run download "$RUN_ID" --repo "$REPO" --name "$ARTIFACT_VST3" --dir "$TMP_DIR/vst3"
+gh run download "$RUN_ID" --repo "$REPO" --name "$ARTIFACT_AU"   --dir "$TMP_DIR/au"
 
 # ── Install ────────────────────────────────────────────────────────────────────
 
@@ -83,8 +83,8 @@ install_plugin() {
     sudo xattr -rd com.apple.quarantine "$dest" 2>/dev/null || true
 }
 
-install_plugin "$TMP_DIR/$PLUGIN_VST3" "$VST3_DIR"
-install_plugin "$TMP_DIR/$PLUGIN_AU"   "$AU_DIR"
+install_plugin "$TMP_DIR/vst3/$PLUGIN_VST3" "$VST3_DIR"
+install_plugin "$TMP_DIR/au/$PLUGIN_AU"     "$AU_DIR"
 
 # ── Done ───────────────────────────────────────────────────────────────────────
 

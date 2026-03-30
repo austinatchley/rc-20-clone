@@ -15,8 +15,7 @@ $Vst3Dir      = "C:\Program Files\Common Files\VST3"
 
 # Derive repo from git remote so the script works on any fork
 $Repo = git -C $PSScriptRoot remote get-url origin 2>$null |
-        Select-String -Pattern "github\.com[:/](.+?)(?:\.git)?$" |
-        ForEach-Object { $_.Matches[0].Groups[1].Value }
+        ForEach-Object { $_ -replace '^.*github\.com[:/]', '' -replace '\.git$', '' }
 
 if (-not $Repo) {
     Write-Error "Could not determine GitHub repo from git remote. Set `$Repo manually."
