@@ -40,4 +40,7 @@ class LimitModule final : public EffectModule
   private:
     std::atomic<float>* modeParam_ = nullptr;
     double sampleRate_ = 44100.0;
+
+    // Envelope follower state per channel (peak detector, max 2 ch).
+    float env_[2] = {};
 };

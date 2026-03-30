@@ -1,5 +1,6 @@
 #pragma once
 #include "EffectModule.h"
+#include <memory>
 
 /**
  * Distortion module — nonlinear saturation with vintage character.
@@ -39,4 +40,12 @@ class DistortionModule final : public EffectModule
   private:
     std::atomic<float>* modeParam_ = nullptr;
     double sampleRate_ = 44100.0;
+
+    // 4x oversampling to suppress aliasing on nonlinear stages.
+    std::unique_ptr<juce::dsp::Oversampling<float>> oversampling_;
+
+    // Waveshaper helpers.
+    static float shapeTape       (float x, float drive) noexcept;
+    static float shapeTube       (float x, float drive) noexcept;
+    static float shapeTransistor (float x, float drive) noexcept;
 };

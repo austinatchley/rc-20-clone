@@ -9,12 +9,38 @@ void ModulatedDelayLine::prepare(const juce::dsp::ProcessSpec& spec)
     reset();
 }
 
-float ModulatedDelayLine::processSample(float /*input*/, float /*delayInSamples*/) noexcept
+float ModulatedDelayLine::processSample(float input, float delayInSamples) noexcept
 {
-    // Phase 1 stub — returns silence.
-    // Phase 2 will: write input at writeHead_, compute read position,
-    // gather four samples, call cubicHermite(), advance writeHead_.
-    return 0.0f;
+    // Write input sample at the current write head.
+    buffer_[static_cast<size_t>(writeHead_)] = input;
+
+    // Clamp delay to valid range (need at least 1, leave 3 samples headroom for interpolation).
+    const float clamped  = juce::jlimit(1.0f, static_cast<float>(bufferSize_ - 4), delayInSamples);
+    const int   delayInt = static_cast<int>(clamped);
+    const float frac     = clamped - static_cast<float>(delayInt);
+
+    // Compute the four read positions needed for cubic Hermite interpolation.
+    // r1 is the sample just before the fractional position, r2 just after.
+    auto wrap = [&](int idx) -> int
+    {
+        idx %= bufferSize_;
+        if (idx < 0) idx += bufferSize_;
+        return idx;
+    };
+
+    const int r0 = wrap(writeHead_ - delayInt - 1);
+    const int r1 = wrap(writeHead_ - delayInt);
+    const int r2 = wrap(writeHead_ - delayInt + 1);
+    const int r3 = wrap(writeHead_ - delayInt + 2);
+
+    // Advance write head for next call.
+    writeHead_ = (writeHead_ + 1) % bufferSize_;
+
+    return cubicHermite(buffer_[static_cast<size_t>(r0)],
+                        buffer_[static_cast<size_t>(r1)],
+                        buffer_[static_cast<size_t>(r2)],
+                        buffer_[static_cast<size_t>(r3)],
+                        frac);
 }
 
 void ModulatedDelayLine::reset()

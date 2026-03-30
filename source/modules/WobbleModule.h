@@ -41,5 +41,9 @@ class WobbleModule final : public EffectModule
     ModulatedDelayLine delayL_;
     ModulatedDelayLine delayR_;
 
+    // LFO phase accumulators; R is offset by 90° for stereo width.
+    float lfoPhaseL_ = 0.0f;
+    float lfoPhaseR_ = 0.25f; // quarter-cycle offset
+
     double sampleRate_ = 44100.0;
 };

@@ -46,4 +46,7 @@ class SpaceModule final : public EffectModule
     std::atomic<float>* toneParam_ = nullptr;
 
     double sampleRate_ = 44100.0;
+
+    // Freeverb-based reverb engine (juce::Reverb wraps the Schroeder topology).
+    juce::Reverb reverb_;
 };

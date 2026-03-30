@@ -38,5 +38,12 @@ class DriftGenerator
     int samplesPerBlock_ = 512;
     float currentValue_ = 0.0f;
 
-    // Phase 2: LFO phase accumulators and noise state will live here.
+    // Three sine LFOs at slightly different rates for organic instability.
+    float phase0_ = 0.0f; // 0.3 Hz
+    float phase1_ = 0.0f; // 0.7 Hz
+    float phase2_ = 0.0f; // 1.1 Hz
+
+    // One-pole lowpass filter for band-limited noise (~5 Hz cutoff).
+    float noiseSmooth_ = 0.0f;
+    juce::Random rng_;
 };

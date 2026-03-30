@@ -36,4 +36,8 @@ class MagicModule final : public EffectModule
   private:
     std::atomic<float>* modeParam_ = nullptr;
     double sampleRate_ = 44100.0;
+
+    // Decimate: held sample and countdown per channel (max 2 ch).
+    float holdSamples_[2] = {};
+    int   holdCounter_    = 0;
 };
