@@ -9,7 +9,7 @@ ModuleComponent::ModuleComponent(const juce::String&                 moduleName,
     // ── Name label ────────────────────────────────────────────────────────────
     nameLabel_.setText(moduleName, juce::dontSendNotification);
     nameLabel_.setJustificationType(juce::Justification::centred);
-    nameLabel_.setFont(juce::Font(14.0f, juce::Font::bold));
+    nameLabel_.setFont(juce::FontOptions(14.0f, juce::Font::bold));
     addAndMakeVisible(nameLabel_);
 
     // ── Bypass button ─────────────────────────────────────────────────────────

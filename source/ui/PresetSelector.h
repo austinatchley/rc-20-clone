@@ -34,4 +34,7 @@ private:
     juce::TextButton saveButton_  { "Save"  };
     juce::TextButton loadButton_  { "Load"  };
     juce::Label      titleLabel_;
+
+    // Must outlive the async callback — stored as a member.
+    std::unique_ptr<juce::FileChooser> fileChooser_;
 };

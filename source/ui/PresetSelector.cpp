@@ -57,18 +57,23 @@ void PresetSelector::refreshPresetList()
 
 void PresetSelector::saveCurrentPreset()
 {
-    juce::AlertWindow::showInputBoxAsync(
-        "Save Preset", "Enter a name for this preset:", "New Preset",
-        nullptr,
-        [this](const juce::String& name)
+    fileChooser_ = std::make_unique<juce::FileChooser>(
+        "Save Preset", getPresetsDirectory(), "*.xml");
+
+    fileChooser_->launchAsync(
+        juce::FileBrowserComponent::saveMode | juce::FileBrowserComponent::canSelectFiles,
+        [this](const juce::FileChooser& chooser)
         {
-            if (name.isEmpty())
+            auto file = chooser.getResult();
+            if (file == juce::File{})
                 return;
+
+            // Ensure .xml extension.
+            if (!file.hasFileExtension("xml"))
+                file = file.withFileExtension("xml");
 
             juce::MemoryBlock data;
             processor_.getStateInformation(data);
-
-            auto file = getPresetsDirectory().getChildFile(name + ".xml");
             file.replaceWithData(data.getData(), data.getSize());
             refreshPresetList();
         });

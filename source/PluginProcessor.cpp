@@ -74,7 +74,8 @@ void RC20PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
         module->process(ctx);
 
     // Apply output level (dB -> linear).
-    const float gainLinear = juce::Decibels::decibelsToGain(*outputLevelParam_);
+    const float outputLevelDb = outputLevelParam_->load();
+    const float gainLinear = juce::Decibels::decibelsToGain(outputLevelDb);
     block.multiplyBy(gainLinear);
 }
 

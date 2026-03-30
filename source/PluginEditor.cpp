@@ -1,31 +1,31 @@
 #include "PluginEditor.h"
 #include "parameters/ParameterIDs.h"
 
-RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& processor)
-    : AudioProcessorEditor(&processor),
-      processor_(processor),
-      presetSelector_(processor),
-      noiseModule_     ("Noise",      processor.apvts,
+RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
+    : AudioProcessorEditor(&p),
+      processor_(p),
+      presetSelector_(p),
+      noiseModule_     ("Noise",      p.apvts,
                         ParameterIDs::noise_bypass,
                         ParameterIDs::noise_amount,
                         ParameterIDs::noise_type),
-      wobbleModule_    ("Wobble",     processor.apvts,
+      wobbleModule_    ("Wobble",     p.apvts,
                         ParameterIDs::wobble_bypass,
                         ParameterIDs::wobble_amount,
                         ParameterIDs::wobble_mode),
-      distortionModule_("Distortion", processor.apvts,
+      distortionModule_("Distortion", p.apvts,
                         ParameterIDs::distortion_bypass,
                         ParameterIDs::distortion_amount,
                         ParameterIDs::distortion_mode),
-      spaceModule_     ("Space",      processor.apvts,
+      spaceModule_     ("Space",      p.apvts,
                         ParameterIDs::space_bypass,
                         ParameterIDs::space_amount,
                         ParameterIDs::space_mode),
-      magicModule_     ("Magic",      processor.apvts,
+      magicModule_     ("Magic",      p.apvts,
                         ParameterIDs::magic_bypass,
                         ParameterIDs::magic_amount,
                         ParameterIDs::magic_mode),
-      limitModule_     ("Limit",      processor.apvts,
+      limitModule_     ("Limit",      p.apvts,
                         ParameterIDs::limit_bypass,
                         ParameterIDs::limit_amount,
                         ParameterIDs::limit_mode)
@@ -42,17 +42,22 @@ RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& processor)
     outputSlider_.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 15);
 
     driftAttachment_  = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        processor.apvts, ParameterIDs::drift,        driftSlider_);
+        p.apvts, ParameterIDs::drift,        driftSlider_);
     outputAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        processor.apvts, ParameterIDs::output_level, outputSlider_);
+        p.apvts, ParameterIDs::output_level, outputSlider_);
 
     // ── Add all children ──────────────────────────────────────────────────────
-    for (auto* child : { static_cast<juce::Component*>(&presetSelector_),
-                         &driftLabel_, &driftSlider_,
-                         &outputLabel_, &outputSlider_,
-                         &noiseModule_, &wobbleModule_, &distortionModule_,
-                         &spaceModule_, &magicModule_, &limitModule_ })
-        addAndMakeVisible(child);
+    addAndMakeVisible(presetSelector_);
+    addAndMakeVisible(driftLabel_);
+    addAndMakeVisible(driftSlider_);
+    addAndMakeVisible(outputLabel_);
+    addAndMakeVisible(outputSlider_);
+    addAndMakeVisible(noiseModule_);
+    addAndMakeVisible(wobbleModule_);
+    addAndMakeVisible(distortionModule_);
+    addAndMakeVisible(spaceModule_);
+    addAndMakeVisible(magicModule_);
+    addAndMakeVisible(limitModule_);
 
     setSize(920, 340);
     setResizable(false, false);
