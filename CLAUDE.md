@@ -99,6 +99,18 @@ good reason.
 
 ---
 
+## Known issues
+
+- **pluginval locale test fails on Linux (strictness 5).** JUCE's `FTTypefaceList`
+  calls `setlocale(LC_ALL, "C")` internally during font initialisation. This
+  permanently changes the process locale before our constructor body runs, so
+  there is no reliable way to restore the host's original locale from within the
+  plugin. This is a well-known JUCE/Linux issue, affects most JUCE plugins, and
+  has no impact on Windows DAW behaviour or audio correctness. All other pluginval
+  tests pass at strictness 5.
+
+---
+
 ## Phase status
 
 | Phase | Description                                         | Status      |
