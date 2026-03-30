@@ -57,8 +57,15 @@ if [[ -z "$RUN_ID" ]]; then
 fi
 
 echo "Downloading artifacts from run $RUN_ID ..."
-gh run download "$RUN_ID" --repo "$REPO" --name "$ARTIFACT_VST3" --dir "$TMP_DIR/vst3"
-gh run download "$RUN_ID" --repo "$REPO" --name "$ARTIFACT_AU"   --dir "$TMP_DIR/au"
+gh run download "$RUN_ID" --repo "$REPO" --name "$ARTIFACT_VST3" --dir "$TMP_DIR/vst3-raw"
+gh run download "$RUN_ID" --repo "$REPO" --name "$ARTIFACT_AU"   --dir "$TMP_DIR/au-raw"
+
+# upload-artifact@v4 strips the bundle directory name (Contents/ lands at the
+# artifact root instead of RC-20 Clone.vst3/Contents/).  Reconstruct the wrapper.
+mkdir -p "$TMP_DIR/vst3/$PLUGIN_VST3"
+cp -r "$TMP_DIR/vst3-raw/." "$TMP_DIR/vst3/$PLUGIN_VST3/"
+mkdir -p "$TMP_DIR/au/$PLUGIN_AU"
+cp -r "$TMP_DIR/au-raw/." "$TMP_DIR/au/$PLUGIN_AU/"
 
 # ── Install ────────────────────────────────────────────────────────────────────
 
