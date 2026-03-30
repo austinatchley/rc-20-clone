@@ -3,7 +3,8 @@
 void ModulatedDelayLine::prepare(const juce::dsp::ProcessSpec& spec)
 {
     sampleRate_ = spec.sampleRate;
-    bufferSize_ = static_cast<int>(kMaxDelaySeconds * sampleRate_) + 4; // +4 for interpolation headroom
+    bufferSize_ =
+        static_cast<int>(kMaxDelaySeconds * sampleRate_) + 4; // +4 for interpolation headroom
     buffer_.assign(static_cast<size_t>(bufferSize_), 0.0f);
     reset();
 }

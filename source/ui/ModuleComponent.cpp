@@ -1,10 +1,10 @@
 #include "ModuleComponent.h"
 
-ModuleComponent::ModuleComponent(const juce::String&                 moduleName,
+ModuleComponent::ModuleComponent(const juce::String& moduleName,
                                  juce::AudioProcessorValueTreeState& apvts,
-                                 const juce::String&                 bypassParamID,
-                                 const juce::String&                 amountParamID,
-                                 const juce::String&                 modeParamID)
+                                 const juce::String& bypassParamID,
+                                 const juce::String& amountParamID,
+                                 const juce::String& modeParamID)
 {
     // ── Name label ────────────────────────────────────────────────────────────
     nameLabel_.setText(moduleName, juce::dontSendNotification);
@@ -24,8 +24,8 @@ ModuleComponent::ModuleComponent(const juce::String&                 moduleName,
 
     // ── Mode combo box ────────────────────────────────────────────────────────
     // Populate items from the AudioParameterChoice so labels always match DSP.
-    if (auto* choiceParam = dynamic_cast<juce::AudioParameterChoice*>(
-            apvts.getParameter(modeParamID)))
+    if (auto* choiceParam =
+            dynamic_cast<juce::AudioParameterChoice*>(apvts.getParameter(modeParamID)))
     {
         modeCombo_.addItemList(choiceParam->choices, 1);
     }
@@ -54,10 +54,10 @@ void ModuleComponent::resized()
 {
     auto area = getLocalBounds().reduced(6);
 
-    nameLabel_   .setBounds(area.removeFromTop(22));
+    nameLabel_.setBounds(area.removeFromTop(22));
     bypassButton_.setBounds(area.removeFromTop(24));
     area.removeFromTop(4);
-    modeCombo_   .setBounds(area.removeFromBottom(24));
+    modeCombo_.setBounds(area.removeFromBottom(24));
     area.removeFromBottom(4);
-    amountKnob_  .setBounds(area);  // remaining space for the rotary
+    amountKnob_.setBounds(area); // remaining space for the rotary
 }

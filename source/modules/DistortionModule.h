@@ -19,8 +19,13 @@
  */
 class DistortionModule final : public EffectModule
 {
-public:
-    enum class Mode { Tape = 0, Tube, Transistor };
+  public:
+    enum class Mode
+    {
+        Tape = 0,
+        Tube,
+        Transistor
+    };
 
     DistortionModule();
     ~DistortionModule() override = default;
@@ -31,7 +36,7 @@ public:
     void reset() override;
     const char* getName() const override { return "Distortion"; }
 
-private:
+  private:
     std::atomic<float>* modeParam_ = nullptr;
-    double              sampleRate_ = 44100.0;
+    double sampleRate_ = 44100.0;
 };

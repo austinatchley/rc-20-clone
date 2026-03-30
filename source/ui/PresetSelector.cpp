@@ -1,7 +1,6 @@
 #include "PresetSelector.h"
 
-PresetSelector::PresetSelector(juce::AudioProcessor& processor)
-    : processor_(processor)
+PresetSelector::PresetSelector(juce::AudioProcessor& processor) : processor_(processor)
 {
     titleLabel_.setText("Preset", juce::dontSendNotification);
     titleLabel_.setJustificationType(juce::Justification::centredLeft);
@@ -28,10 +27,10 @@ void PresetSelector::paint(juce::Graphics& g)
 void PresetSelector::resized()
 {
     auto area = getLocalBounds().reduced(4);
-    titleLabel_ .setBounds(area.removeFromLeft(50));
-    saveButton_ .setBounds(area.removeFromRight(54));
+    titleLabel_.setBounds(area.removeFromLeft(50));
+    saveButton_.setBounds(area.removeFromRight(54));
     area.removeFromRight(4);
-    loadButton_ .setBounds(area.removeFromRight(54));
+    loadButton_.setBounds(area.removeFromRight(54));
     area.removeFromRight(4);
     presetCombo_.setBounds(area);
 }
@@ -57,26 +56,25 @@ void PresetSelector::refreshPresetList()
 
 void PresetSelector::saveCurrentPreset()
 {
-    fileChooser_ = std::make_unique<juce::FileChooser>(
-        "Save Preset", getPresetsDirectory(), "*.xml");
+    fileChooser_ =
+        std::make_unique<juce::FileChooser>("Save Preset", getPresetsDirectory(), "*.xml");
 
-    fileChooser_->launchAsync(
-        juce::FileBrowserComponent::saveMode | juce::FileBrowserComponent::canSelectFiles,
-        [this](const juce::FileChooser& chooser)
-        {
-            auto file = chooser.getResult();
-            if (file == juce::File{})
-                return;
+    fileChooser_->launchAsync(juce::FileBrowserComponent::saveMode |
+                                  juce::FileBrowserComponent::canSelectFiles,
+                              [this](const juce::FileChooser& chooser) {
+                                  auto file = chooser.getResult();
+                                  if (file == juce::File{})
+                                      return;
 
-            // Ensure .xml extension.
-            if (!file.hasFileExtension("xml"))
-                file = file.withFileExtension("xml");
+                                  // Ensure .xml extension.
+                                  if (!file.hasFileExtension("xml"))
+                                      file = file.withFileExtension("xml");
 
-            juce::MemoryBlock data;
-            processor_.getStateInformation(data);
-            file.replaceWithData(data.getData(), data.getSize());
-            refreshPresetList();
-        });
+                                  juce::MemoryBlock data;
+                                  processor_.getStateInformation(data);
+                                  file.replaceWithData(data.getData(), data.getSize());
+                                  refreshPresetList();
+                              });
 }
 
 void PresetSelector::loadSelectedPreset()

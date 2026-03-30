@@ -18,7 +18,7 @@
  */
 class DriftGenerator
 {
-public:
+  public:
     DriftGenerator() = default;
 
     void prepare(const juce::dsp::ProcessSpec& spec);
@@ -33,10 +33,10 @@ public:
 
     void reset();
 
-private:
-    double sampleRate_      = 44100.0;
-    int    samplesPerBlock_ = 512;
-    float  currentValue_    = 0.0f;
+  private:
+    double sampleRate_ = 44100.0;
+    int samplesPerBlock_ = 512;
+    float currentValue_ = 0.0f;
 
     // Phase 2: LFO phase accumulators and noise state will live here.
 };

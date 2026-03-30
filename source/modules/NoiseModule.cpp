@@ -7,7 +7,7 @@ void NoiseModule::prepareParameters(juce::AudioProcessorValueTreeState& apvts)
 {
     bypassParam_ = apvts.getRawParameterValue(ParameterIDs::noise_bypass);
     amountParam_ = apvts.getRawParameterValue(ParameterIDs::noise_amount);
-    typeParam_   = apvts.getRawParameterValue(ParameterIDs::noise_type);
+    typeParam_ = apvts.getRawParameterValue(ParameterIDs::noise_type);
 }
 
 void NoiseModule::prepare(const juce::dsp::ProcessSpec& spec)

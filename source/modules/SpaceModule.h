@@ -23,8 +23,13 @@
  */
 class SpaceModule final : public EffectModule
 {
-public:
-    enum class Mode { Room = 0, Hall, Plate };
+  public:
+    enum class Mode
+    {
+        Room = 0,
+        Hall,
+        Plate
+    };
 
     SpaceModule();
     ~SpaceModule() override = default;
@@ -35,7 +40,7 @@ public:
     void reset() override;
     const char* getName() const override { return "Space"; }
 
-private:
+  private:
     std::atomic<float>* modeParam_ = nullptr;
     std::atomic<float>* sizeParam_ = nullptr;
     std::atomic<float>* toneParam_ = nullptr;

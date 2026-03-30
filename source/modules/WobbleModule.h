@@ -17,8 +17,13 @@
  */
 class WobbleModule final : public EffectModule
 {
-public:
-    enum class Mode { Slow = 0, Medium, Fast };
+  public:
+    enum class Mode
+    {
+        Slow = 0,
+        Medium,
+        Fast
+    };
 
     WobbleModule();
     ~WobbleModule() override = default;
@@ -29,7 +34,7 @@ public:
     void reset() override;
     const char* getName() const override { return "Wobble"; }
 
-private:
+  private:
     std::atomic<float>* modeParam_ = nullptr;
 
     // One delay line per channel (stereo).

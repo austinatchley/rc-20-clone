@@ -7,9 +7,9 @@ void SpaceModule::prepareParameters(juce::AudioProcessorValueTreeState& apvts)
 {
     bypassParam_ = apvts.getRawParameterValue(ParameterIDs::space_bypass);
     amountParam_ = apvts.getRawParameterValue(ParameterIDs::space_amount);
-    modeParam_   = apvts.getRawParameterValue(ParameterIDs::space_mode);
-    sizeParam_   = apvts.getRawParameterValue(ParameterIDs::space_size);
-    toneParam_   = apvts.getRawParameterValue(ParameterIDs::space_tone);
+    modeParam_ = apvts.getRawParameterValue(ParameterIDs::space_mode);
+    sizeParam_ = apvts.getRawParameterValue(ParameterIDs::space_size);
+    toneParam_ = apvts.getRawParameterValue(ParameterIDs::space_tone);
 }
 
 void SpaceModule::prepare(const juce::dsp::ProcessSpec& spec)

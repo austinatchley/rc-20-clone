@@ -13,8 +13,13 @@
  */
 class NoiseModule final : public EffectModule
 {
-public:
-    enum class Type { TapeHiss = 0, VinylCrackle, ElectricalHum };
+  public:
+    enum class Type
+    {
+        TapeHiss = 0,
+        VinylCrackle,
+        ElectricalHum
+    };
 
     NoiseModule();
     ~NoiseModule() override = default;
@@ -25,7 +30,7 @@ public:
     void reset() override;
     const char* getName() const override { return "Noise"; }
 
-private:
+  private:
     std::atomic<float>* typeParam_ = nullptr;
-    double              sampleRate_ = 44100.0;
+    double sampleRate_ = 44100.0;
 };

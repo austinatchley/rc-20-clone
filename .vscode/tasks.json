@@ -32,6 +32,13 @@
             "command": "cmake --build build --target clean",
             "group": "build",
             "problemMatcher": []
+        },
+        {
+            "label": "Format: All source files",
+            "type": "shell",
+            "command": "find source -name '*.cpp' -o -name '*.h' | xargs clang-format -i",
+            "group": "build",
+            "problemMatcher": []
         }
     ]
 }

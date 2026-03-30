@@ -5,30 +5,36 @@ RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
     : AudioProcessorEditor(&p),
       processor_(p),
       presetSelector_(p),
-      noiseModule_     ("Noise",      p.apvts,
-                        ParameterIDs::noise_bypass,
-                        ParameterIDs::noise_amount,
-                        ParameterIDs::noise_type),
-      wobbleModule_    ("Wobble",     p.apvts,
-                        ParameterIDs::wobble_bypass,
-                        ParameterIDs::wobble_amount,
-                        ParameterIDs::wobble_mode),
-      distortionModule_("Distortion", p.apvts,
+      noiseModule_("Noise",
+                   p.apvts,
+                   ParameterIDs::noise_bypass,
+                   ParameterIDs::noise_amount,
+                   ParameterIDs::noise_type),
+      wobbleModule_("Wobble",
+                    p.apvts,
+                    ParameterIDs::wobble_bypass,
+                    ParameterIDs::wobble_amount,
+                    ParameterIDs::wobble_mode),
+      distortionModule_("Distortion",
+                        p.apvts,
                         ParameterIDs::distortion_bypass,
                         ParameterIDs::distortion_amount,
                         ParameterIDs::distortion_mode),
-      spaceModule_     ("Space",      p.apvts,
-                        ParameterIDs::space_bypass,
-                        ParameterIDs::space_amount,
-                        ParameterIDs::space_mode),
-      magicModule_     ("Magic",      p.apvts,
-                        ParameterIDs::magic_bypass,
-                        ParameterIDs::magic_amount,
-                        ParameterIDs::magic_mode),
-      limitModule_     ("Limit",      p.apvts,
-                        ParameterIDs::limit_bypass,
-                        ParameterIDs::limit_amount,
-                        ParameterIDs::limit_mode)
+      spaceModule_("Space",
+                   p.apvts,
+                   ParameterIDs::space_bypass,
+                   ParameterIDs::space_amount,
+                   ParameterIDs::space_mode),
+      magicModule_("Magic",
+                   p.apvts,
+                   ParameterIDs::magic_bypass,
+                   ParameterIDs::magic_amount,
+                   ParameterIDs::magic_mode),
+      limitModule_("Limit",
+                   p.apvts,
+                   ParameterIDs::limit_bypass,
+                   ParameterIDs::limit_amount,
+                   ParameterIDs::limit_mode)
 {
     // ── Global controls ───────────────────────────────────────────────────────
     driftLabel_.setText("Drift", juce::dontSendNotification);
@@ -41,8 +47,8 @@ RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
     outputSlider_.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
     outputSlider_.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 15);
 
-    driftAttachment_  = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
-        p.apvts, ParameterIDs::drift,        driftSlider_);
+    driftAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
+        p.apvts, ParameterIDs::drift, driftSlider_);
     outputAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
         p.apvts, ParameterIDs::output_level, outputSlider_);
 
@@ -65,7 +71,7 @@ RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
 
 void RC20PluginEditor::paint(juce::Graphics& g)
 {
-    g.fillAll(juce::Colour(0xff1a1a2e));  // placeholder dark background
+    g.fillAll(juce::Colour(0xff1a1a2e)); // placeholder dark background
 }
 
 void RC20PluginEditor::resized()
@@ -91,10 +97,10 @@ void RC20PluginEditor::resized()
 
     // ── Module strip ──────────────────────────────────────────────────────────
     const int moduleWidth = area.getWidth() / 6;
-    noiseModule_     .setBounds(area.removeFromLeft(moduleWidth));
-    wobbleModule_    .setBounds(area.removeFromLeft(moduleWidth));
+    noiseModule_.setBounds(area.removeFromLeft(moduleWidth));
+    wobbleModule_.setBounds(area.removeFromLeft(moduleWidth));
     distortionModule_.setBounds(area.removeFromLeft(moduleWidth));
-    spaceModule_     .setBounds(area.removeFromLeft(moduleWidth));
-    magicModule_     .setBounds(area.removeFromLeft(moduleWidth));
-    limitModule_     .setBounds(area);  // last module gets any remaining pixels
+    spaceModule_.setBounds(area.removeFromLeft(moduleWidth));
+    magicModule_.setBounds(area.removeFromLeft(moduleWidth));
+    limitModule_.setBounds(area); // last module gets any remaining pixels
 }

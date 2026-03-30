@@ -14,14 +14,14 @@
  */
 class PresetSelector final : public juce::Component
 {
-public:
+  public:
     explicit PresetSelector(juce::AudioProcessor& processor);
     ~PresetSelector() override = default;
 
     void paint(juce::Graphics& g) override;
     void resized() override;
 
-private:
+  private:
     void refreshPresetList();
     void saveCurrentPreset();
     void loadSelectedPreset();
@@ -30,10 +30,10 @@ private:
 
     juce::AudioProcessor& processor_;
 
-    juce::ComboBox   presetCombo_;
-    juce::TextButton saveButton_  { "Save"  };
-    juce::TextButton loadButton_  { "Load"  };
-    juce::Label      titleLabel_;
+    juce::ComboBox presetCombo_;
+    juce::TextButton saveButton_{"Save"};
+    juce::TextButton loadButton_{"Load"};
+    juce::Label titleLabel_;
 
     // Must outlive the async callback — stored as a member.
     std::unique_ptr<juce::FileChooser> fileChooser_;

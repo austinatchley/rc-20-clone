@@ -16,8 +16,13 @@
  */
 class MagicModule final : public EffectModule
 {
-public:
-    enum class Mode { BitCrush = 0, Decimate, Combined };
+  public:
+    enum class Mode
+    {
+        BitCrush = 0,
+        Decimate,
+        Combined
+    };
 
     MagicModule();
     ~MagicModule() override = default;
@@ -28,7 +33,7 @@ public:
     void reset() override;
     const char* getName() const override { return "Magic"; }
 
-private:
+  private:
     std::atomic<float>* modeParam_ = nullptr;
-    double              sampleRate_ = 44100.0;
+    double sampleRate_ = 44100.0;
 };

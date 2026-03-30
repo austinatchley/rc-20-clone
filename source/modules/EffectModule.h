@@ -14,7 +14,7 @@
 struct ProcessContext
 {
     juce::dsp::AudioBlock<float>& block;
-    float                         driftValue = 0.0f; ///< Global drift in [0, 1]
+    float driftValue = 0.0f; ///< Global drift in [0, 1]
 };
 
 // ── ProcessingMode ─────────────────────────────────────────────────────────────
@@ -31,7 +31,7 @@ struct ProcessContext
  */
 class ProcessingMode
 {
-public:
+  public:
     virtual ~ProcessingMode() = default;
 
     virtual void prepare(const juce::dsp::ProcessSpec& spec) = 0;
@@ -43,9 +43,7 @@ public:
      * @param amount  Normalised depth [0, 1], already smoothed by the module.
      * @param drift   Drift value from DriftGenerator [0, 1].
      */
-    virtual void process(juce::dsp::AudioBlock<float>& block,
-                         float                         amount,
-                         float                         drift) = 0;
+    virtual void process(juce::dsp::AudioBlock<float>& block, float amount, float drift) = 0;
 
     virtual void reset() = 0;
 
@@ -74,7 +72,7 @@ public:
  */
 class EffectModule
 {
-public:
+  public:
     virtual ~EffectModule() = default;
 
     /**
@@ -94,7 +92,7 @@ public:
 
     virtual const char* getName() const = 0;
 
-protected:
+  protected:
     // Raw parameter pointers — dereferencing these is wait-free on the audio thread.
     std::atomic<float>* bypassParam_ = nullptr;
     std::atomic<float>* amountParam_ = nullptr;
@@ -103,5 +101,5 @@ protected:
     juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> smoothedAmount_;
 
     // Bypass crossfade gain: 1.0 = fully active, 0.0 = fully bypassed (~10 ms).
-    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> bypassGain_ { 1.0f };
+    juce::SmoothedValue<float, juce::ValueSmoothingTypes::Linear> bypassGain_{1.0f};
 };

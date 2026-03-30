@@ -7,7 +7,7 @@ void WobbleModule::prepareParameters(juce::AudioProcessorValueTreeState& apvts)
 {
     bypassParam_ = apvts.getRawParameterValue(ParameterIDs::wobble_bypass);
     amountParam_ = apvts.getRawParameterValue(ParameterIDs::wobble_amount);
-    modeParam_   = apvts.getRawParameterValue(ParameterIDs::wobble_mode);
+    modeParam_ = apvts.getRawParameterValue(ParameterIDs::wobble_mode);
 }
 
 void WobbleModule::prepare(const juce::dsp::ProcessSpec& spec)
@@ -17,7 +17,7 @@ void WobbleModule::prepare(const juce::dsp::ProcessSpec& spec)
     bypassGain_.reset(spec.sampleRate, 0.01);
 
     // Prepare one delay line per channel using a single-channel spec.
-    juce::dsp::ProcessSpec monoSpec { spec.sampleRate, spec.maximumBlockSize, 1 };
+    juce::dsp::ProcessSpec monoSpec{spec.sampleRate, spec.maximumBlockSize, 1};
     delayL_.prepare(monoSpec);
     delayR_.prepare(monoSpec);
 

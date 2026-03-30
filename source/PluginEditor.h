@@ -19,22 +19,22 @@
  */
 class RC20PluginEditor final : public juce::AudioProcessorEditor
 {
-public:
+  public:
     explicit RC20PluginEditor(RC20PluginProcessor& processor);
     ~RC20PluginEditor() override = default;
 
     void paint(juce::Graphics& g) override;
     void resized() override;
 
-private:
+  private:
     RC20PluginProcessor& processor_;
 
     // ── Top bar ───────────────────────────────────────────────────────────────
     PresetSelector presetSelector_;
 
-    juce::Label  driftLabel_;
+    juce::Label driftLabel_;
     juce::Slider driftSlider_;
-    juce::Label  outputLabel_;
+    juce::Label outputLabel_;
     juce::Slider outputSlider_;
 
     std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> driftAttachment_;

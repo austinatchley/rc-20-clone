@@ -1,0 +1,46 @@
+---
+Language: Cpp
+BasedOnStyle: LLVM
+
+# ── Indentation ────────────────────────────────────────────────────────────────
+IndentWidth: 4
+ContinuationIndentWidth: 4
+TabWidth: 4
+UseTab: Never
+IndentCaseLabels: false
+IndentPPDirectives: None
+
+# ── Line length ────────────────────────────────────────────────────────────────
+ColumnLimit: 100
+
+# ── Braces ────────────────────────────────────────────────────────────────────
+BreakBeforeBraces: Allman   # opening brace always on its own line
+
+# ── Pointers and references ────────────────────────────────────────────────────
+PointerAlignment: Left      # juce::String* not juce::String *
+
+# ── Includes ──────────────────────────────────────────────────────────────────
+SortIncludes: false         # we manage include order manually
+
+# ── Spacing ───────────────────────────────────────────────────────────────────
+SpaceAfterCStyleCast: false
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInAngles: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+# ── Constructor initialiser lists ─────────────────────────────────────────────
+BreakConstructorInitializers: BeforeColon
+ConstructorInitializerIndentWidth: 4
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+
+# ── Function / call formatting ────────────────────────────────────────────────
+AllowShortFunctionsOnASingleLine: Inline   # allow getters on one line
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+BinPackArguments: false
+BinPackParameters: false
+
+# ── Comments ──────────────────────────────────────────────────────────────────
+ReflowComments: false   # don't reflow our section-header comments

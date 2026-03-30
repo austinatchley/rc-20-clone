@@ -20,8 +20,13 @@
  */
 class LimitModule final : public EffectModule
 {
-public:
-    enum class Mode { Soft = 0, Medium, Hard };
+  public:
+    enum class Mode
+    {
+        Soft = 0,
+        Medium,
+        Hard
+    };
 
     LimitModule();
     ~LimitModule() override = default;
@@ -32,7 +37,7 @@ public:
     void reset() override;
     const char* getName() const override { return "Limit"; }
 
-private:
+  private:
     std::atomic<float>* modeParam_ = nullptr;
-    double              sampleRate_ = 44100.0;
+    double sampleRate_ = 44100.0;
 };

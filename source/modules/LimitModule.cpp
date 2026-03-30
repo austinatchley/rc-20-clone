@@ -7,7 +7,7 @@ void LimitModule::prepareParameters(juce::AudioProcessorValueTreeState& apvts)
 {
     bypassParam_ = apvts.getRawParameterValue(ParameterIDs::limit_bypass);
     amountParam_ = apvts.getRawParameterValue(ParameterIDs::limit_amount);
-    modeParam_   = apvts.getRawParameterValue(ParameterIDs::limit_mode);
+    modeParam_ = apvts.getRawParameterValue(ParameterIDs::limit_mode);
 }
 
 void LimitModule::prepare(const juce::dsp::ProcessSpec& spec)

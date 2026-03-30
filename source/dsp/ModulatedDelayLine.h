@@ -20,7 +20,7 @@
  */
 class ModulatedDelayLine
 {
-public:
+  public:
     /** Maximum supported delay in seconds.  Sets internal buffer capacity. */
     static constexpr float kMaxDelaySeconds = 0.5f;
 
@@ -42,7 +42,7 @@ public:
     /** Silence the internal buffer and reset the write head. */
     void reset();
 
-private:
+  private:
     /**
      * Cubic Hermite spline interpolation between y1 and y2.
      *
@@ -52,7 +52,7 @@ private:
     static float cubicHermite(float y0, float y1, float y2, float y3, float t) noexcept;
 
     std::vector<float> buffer_;
-    int                writeHead_  = 0;
-    int                bufferSize_ = 0;
-    double             sampleRate_ = 44100.0;
+    int writeHead_ = 0;
+    int bufferSize_ = 0;
+    double sampleRate_ = 44100.0;
 };

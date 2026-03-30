@@ -2,7 +2,7 @@
 
 void DriftGenerator::prepare(const juce::dsp::ProcessSpec& spec)
 {
-    sampleRate_      = spec.sampleRate;
+    sampleRate_ = spec.sampleRate;
     samplesPerBlock_ = static_cast<int>(spec.maximumBlockSize);
     reset();
 }

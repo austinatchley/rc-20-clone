@@ -6,6 +6,12 @@
         "--header-insertion=never"
     ],
     "editor.formatOnSave": true,
+    "[cpp]": {
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
+    "[c]": {
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd"
+    },
     // Disable the Microsoft C++ extension's IntelliSense in favour of clangd
     "C_Cpp.intelliSenseEngine": "disabled"
 }

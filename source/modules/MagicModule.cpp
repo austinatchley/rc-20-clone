@@ -7,7 +7,7 @@ void MagicModule::prepareParameters(juce::AudioProcessorValueTreeState& apvts)
 {
     bypassParam_ = apvts.getRawParameterValue(ParameterIDs::magic_bypass);
     amountParam_ = apvts.getRawParameterValue(ParameterIDs::magic_amount);
-    modeParam_   = apvts.getRawParameterValue(ParameterIDs::magic_mode);
+    modeParam_ = apvts.getRawParameterValue(ParameterIDs::magic_mode);
 }
 
 void MagicModule::prepare(const juce::dsp::ProcessSpec& spec)

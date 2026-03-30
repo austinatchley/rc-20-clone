@@ -7,7 +7,7 @@ void DistortionModule::prepareParameters(juce::AudioProcessorValueTreeState& apv
 {
     bypassParam_ = apvts.getRawParameterValue(ParameterIDs::distortion_bypass);
     amountParam_ = apvts.getRawParameterValue(ParameterIDs::distortion_amount);
-    modeParam_   = apvts.getRawParameterValue(ParameterIDs::distortion_mode);
+    modeParam_ = apvts.getRawParameterValue(ParameterIDs::distortion_mode);
 }
 
 void DistortionModule::prepare(const juce::dsp::ProcessSpec& spec)

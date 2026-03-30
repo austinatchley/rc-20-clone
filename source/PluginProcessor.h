@@ -29,7 +29,7 @@
  */
 class RC20PluginProcessor final : public juce::AudioProcessor
 {
-public:
+  public:
     RC20PluginProcessor();
     ~RC20PluginProcessor() override = default;
 
@@ -42,11 +42,11 @@ public:
     void processBlock(juce::AudioBuffer<float>&, juce::MidiBuffer&) override;
 
     juce::AudioProcessorEditor* createEditor() override;
-    bool                        hasEditor() const override { return true; }
+    bool hasEditor() const override { return true; }
 
     const juce::String getName() const override { return JucePlugin_Name; }
 
-    bool acceptsMidi()  const override { return false; }
+    bool acceptsMidi() const override { return false; }
     bool producesMidi() const override { return false; }
     bool isMidiEffect() const override { return false; }
 
@@ -54,20 +54,20 @@ public:
     double getTailLengthSeconds() const override { return 4.0; }
 
     // ── Programs (unused — presets handled via APVTS) ─────────────────────────
-    int           getNumPrograms()                                override { return 1; }
-    int           getCurrentProgram()                             override { return 0; }
-    void          setCurrentProgram(int)                          override {}
-    const juce::String getProgramName(int)                        override { return "Default"; }
-    void          changeProgramName(int, const juce::String&)     override {}
+    int getNumPrograms() override { return 1; }
+    int getCurrentProgram() override { return 0; }
+    void setCurrentProgram(int) override {}
+    const juce::String getProgramName(int) override { return "Default"; }
+    void changeProgramName(int, const juce::String&) override {}
 
     // ── State serialisation ───────────────────────────────────────────────────
-    void getStateInformation(juce::MemoryBlock& destData)          override;
-    void setStateInformation(const void* data, int sizeInBytes)    override;
+    void getStateInformation(juce::MemoryBlock& destData) override;
+    void setStateInformation(const void* data, int sizeInBytes) override;
 
     // ── Public state ──────────────────────────────────────────────────────────
     juce::AudioProcessorValueTreeState apvts;
 
-private:
+  private:
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
 
     DriftGenerator driftGenerator_;
@@ -75,7 +75,7 @@ private:
     // Fixed signal chain — index order matches processing order.
     std::array<std::unique_ptr<EffectModule>, 6> modules_;
 
-    std::atomic<float>* driftParam_       = nullptr;
+    std::atomic<float>* driftParam_ = nullptr;
     std::atomic<float>* outputLevelParam_ = nullptr;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(RC20PluginProcessor)
