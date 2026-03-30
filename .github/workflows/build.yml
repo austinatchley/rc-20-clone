@@ -1,0 +1,90 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+jobs:
+  build-windows:
+    name: Windows VST3
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache JUCE FetchContent
+        uses: actions/cache@v4
+        with:
+          path: build/_deps
+          key: juce-windows-${{ hashFiles('CMakeLists.txt') }}
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -G "Visual Studio 17 2022"
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC-20-Clone-Windows-VST3
+          path: "build/RC20Clone_artefacts/Release/VST3/RC-20 Clone.vst3"
+
+  build-macos:
+    name: macOS VST3 + AU
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache JUCE FetchContent
+        uses: actions/cache@v4
+        with:
+          path: build/_deps
+          key: juce-macos-${{ hashFiles('CMakeLists.txt') }}
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -G Xcode
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Upload VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC-20-Clone-macOS-VST3
+          path: "build/RC20Clone_artefacts/Release/VST3/RC-20 Clone.vst3"
+
+      - name: Upload AU
+        uses: actions/upload-artifact@v4
+        with:
+          name: RC-20-Clone-macOS-AU
+          path: "build/RC20Clone_artefacts/Release/AU/RC-20 Clone.component"
+
+  release:
+    name: Attach to GitHub Release
+    needs: [build-windows, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Zip each artifact
+        run: |
+          cd artifacts
+          zip -r "../RC-20-Clone-Windows-VST3.zip" "RC-20-Clone-Windows-VST3"
+          zip -r "../RC-20-Clone-macOS-VST3.zip"   "RC-20-Clone-macOS-VST3"
+          zip -r "../RC-20-Clone-macOS-AU.zip"     "RC-20-Clone-macOS-AU"
+
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            RC-20-Clone-Windows-VST3.zip
+            RC-20-Clone-macOS-VST3.zip
+            RC-20-Clone-macOS-AU.zip
