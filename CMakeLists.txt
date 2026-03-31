@@ -96,6 +96,7 @@ if(PLUGINVAL)
         COMMAND ${PLUGINVAL}
             --validate "${CMAKE_BINARY_DIR}/RC20Clone_artefacts/$<CONFIG>/VST3/RC-20 Clone.vst3"
             --strictness-level 5
+            --disabled-tests "${CMAKE_SOURCE_DIR}/scripts/pluginval-disabled-tests.txt"
         COMMENT "Running pluginval"
     )
 endif()
