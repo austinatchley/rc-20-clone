@@ -64,9 +64,51 @@ jobs:
           name: RC-20-Clone-macOS-AU
           path: "build/RC20Clone_artefacts/Release/AU"
 
+  validate:
+    name: pluginval (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install JUCE dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libasound2-dev libfreetype-dev libx11-dev libxrandr-dev \
+            libxcursor-dev libxinerama-dev libwebkit2gtk-4.0-dev \
+            ninja-build
+
+      - name: Cache JUCE FetchContent
+        uses: actions/cache@v4
+        with:
+          path: build/_deps
+          key: juce-linux-${{ hashFiles('CMakeLists.txt') }}
+
+      - name: Configure
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
+            -G Ninja
+
+      - name: Build
+        run: cmake --build build -j$(nproc)
+
+      - name: Download pluginval
+        run: |
+          curl -LOs https://github.com/Tracktion/pluginval/releases/latest/download/pluginval_Linux.zip
+          unzip pluginval_Linux.zip
+          chmod +x pluginval
+
+      - name: Run pluginval
+        run: |
+          ./pluginval \
+            --validate "build/RC20Clone_artefacts/Release/VST3/RC-20 Clone.vst3" \
+            --strictness-level 5 \
+            --disabled-tests scripts/pluginval-disabled-tests.txt
+
   release:
     name: Attach to GitHub Release
-    needs: [build-windows, build-macos]
+    needs: [build-windows, build-macos, validate]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     permissions:
