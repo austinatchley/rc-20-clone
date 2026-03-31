@@ -196,13 +196,17 @@ good reason.
 
 ## Known issues
 
-- **pluginval locale test fails on Linux (strictness 5).** JUCE's `FTTypefaceList`
-  calls `setlocale(LC_ALL, "C")` internally during font initialisation. This
-  permanently changes the process locale before our constructor body runs, so
-  there is no reliable way to restore the host's original locale from within the
-  plugin. This is a well-known JUCE/Linux issue, affects most JUCE plugins, and
-  has no impact on Windows DAW behaviour or audio correctness. All other pluginval
-  tests pass at strictness 5.
+- **pluginval locale test fails on Linux (strictness 5).** Root cause (confirmed
+  via `ltrace`): `juce_SimpleShapedText.cpp` calls `SystemStats::getDisplayLanguage()`
+  on every text-shaping operation, which internally calls `setlocale(LC_ALL, "")`
+  (sets locale to the environment default — `C` on this machine) and then restores
+  it. This happens on JUCE's message thread. pluginval checks the locale on its
+  own thread after opening the editor, and races with the temporary C window.
+  The plugin does not permanently change the locale; this is a timing false positive
+  caused by JUCE's non-thread-safe `setlocale` usage in text shaping. Fixing it
+  would require modifying JUCE's `getLocaleValue()` to use `uselocale()` (per-thread
+  locale). No impact on Windows DAW behaviour or audio correctness. All other
+  pluginval tests pass at strictness 5.
 
 ---
 
