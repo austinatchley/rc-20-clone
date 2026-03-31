@@ -87,12 +87,16 @@ jobs:
 
       - name: Configure
         run: |
-          cmake -B build -DCMAKE_BUILD_TYPE=Release \
-            -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ \
-            -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" \
-            -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" \
-            -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=OFF \
-            -G Ninja
+         cmake -B build -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_C_COMPILER=clang \
+          -DCMAKE_CXX_COMPILER=clang++ \
+          -DCMAKE_AR=/usr/bin/llvm-ar-18 \
+          -DCMAKE_RANLIB=/usr/bin/llvm-ranlib-18 \
+          -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" \
+          -DCMAKE_SHARED_LINKER_FLAGS="-fuse-ld=lld" \
+          -DCMAKE_MODULE_LINKER_FLAGS="-fuse-ld=lld" \
+          -DCMAKE_INTERPROCEDURAL_OPTIMIZATION=OFF \
+          -G Ninja
 
       - name: Build
         run: cmake --build build -j$(nproc)
