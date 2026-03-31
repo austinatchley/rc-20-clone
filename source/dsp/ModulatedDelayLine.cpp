@@ -1,30 +1,28 @@
 #include "ModulatedDelayLine.h"
 
-void ModulatedDelayLine::prepare(const juce::dsp::ProcessSpec& spec)
-{
+void ModulatedDelayLine::prepare(const juce::dsp::ProcessSpec& spec) {
     sampleRate_ = spec.sampleRate;
     bufferSize_ =
-        static_cast<int>(kMaxDelaySeconds * sampleRate_) + 4; // +4 for interpolation headroom
+        static_cast<int>(kMaxDelaySeconds * sampleRate_) + 4;  // +4 for interpolation headroom
     buffer_.assign(static_cast<size_t>(bufferSize_), 0.0f);
     reset();
 }
 
-float ModulatedDelayLine::processSample(float input, float delayInSamples) noexcept
-{
+float ModulatedDelayLine::processSample(float input, float delayInSamples) noexcept {
     // Write input sample at the current write head.
     buffer_[static_cast<size_t>(writeHead_)] = input;
 
     // Clamp delay to valid range (need at least 1, leave 3 samples headroom for interpolation).
-    const float clamped  = juce::jlimit(1.0f, static_cast<float>(bufferSize_ - 4), delayInSamples);
-    const int   delayInt = static_cast<int>(clamped);
-    const float frac     = clamped - static_cast<float>(delayInt);
+    const float clamped = juce::jlimit(1.0f, static_cast<float>(bufferSize_ - 4), delayInSamples);
+    const int delayInt = static_cast<int>(clamped);
+    const float frac = clamped - static_cast<float>(delayInt);
 
     // Compute the four read positions needed for cubic Hermite interpolation.
     // r1 is the sample just before the fractional position, r2 just after.
-    auto wrap = [&](int idx) -> int
-    {
+    auto wrap = [&](int idx) -> int {
         idx %= bufferSize_;
-        if (idx < 0) idx += bufferSize_;
+        if (idx < 0)
+            idx += bufferSize_;
         return idx;
     };
 
@@ -43,14 +41,12 @@ float ModulatedDelayLine::processSample(float input, float delayInSamples) noexc
                         frac);
 }
 
-void ModulatedDelayLine::reset()
-{
+void ModulatedDelayLine::reset() {
     std::fill(buffer_.begin(), buffer_.end(), 0.0f);
     writeHead_ = 0;
 }
 
-float ModulatedDelayLine::cubicHermite(float y0, float y1, float y2, float y3, float t) noexcept
-{
+float ModulatedDelayLine::cubicHermite(float y0, float y1, float y2, float y3, float t) noexcept {
     // Catmull-Rom variant of cubic Hermite:
     //   c0 = y1
     //   c1 = 0.5 * (y2 - y0)

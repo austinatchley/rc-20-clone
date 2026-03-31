@@ -1,4 +1,5 @@
 #include "PluginEditor.h"
+
 #include "parameters/ParameterIDs.h"
 
 RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
@@ -34,8 +35,7 @@ RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
                    p.apvts,
                    ParameterIDs::limit_bypass,
                    ParameterIDs::limit_amount,
-                   ParameterIDs::limit_mode)
-{
+                   ParameterIDs::limit_mode) {
     // ── Global controls ───────────────────────────────────────────────────────
     driftLabel_.setText("Drift", juce::dontSendNotification);
     driftLabel_.setJustificationType(juce::Justification::centred);
@@ -69,13 +69,11 @@ RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
     setResizable(false, false);
 }
 
-void RC20PluginEditor::paint(juce::Graphics& g)
-{
-    g.fillAll(juce::Colour(0xff1a1a2e)); // placeholder dark background
+void RC20PluginEditor::paint(juce::Graphics& g) {
+    g.fillAll(juce::Colour(0xff1a1a2e));  // placeholder dark background
 }
 
-void RC20PluginEditor::resized()
-{
+void RC20PluginEditor::resized() {
     auto area = getLocalBounds().reduced(8);
 
     // ── Top bar ───────────────────────────────────────────────────────────────
@@ -102,5 +100,5 @@ void RC20PluginEditor::resized()
     distortionModule_.setBounds(area.removeFromLeft(moduleWidth));
     spaceModule_.setBounds(area.removeFromLeft(moduleWidth));
     magicModule_.setBounds(area.removeFromLeft(moduleWidth));
-    limitModule_.setBounds(area); // last module gets any remaining pixels
+    limitModule_.setBounds(area);  // last module gets any remaining pixels
 }

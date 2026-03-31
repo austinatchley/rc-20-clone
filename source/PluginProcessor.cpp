@@ -1,4 +1,5 @@
 #include "PluginProcessor.h"
+
 #include "PluginEditor.h"
 #include "parameters/ParameterIDs.h"
 
@@ -8,8 +9,7 @@ RC20PluginProcessor::RC20PluginProcessor()
     : AudioProcessor(BusesProperties()
                          .withInput("Input", juce::AudioChannelSet::stereo(), true)
                          .withOutput("Output", juce::AudioChannelSet::stereo(), true)),
-      apvts(*this, nullptr, "RC20CloneState", createParameterLayout())
-{
+      apvts(*this, nullptr, "RC20CloneState", createParameterLayout()) {
     // Build the fixed signal chain in order.
     modules_[0] = std::make_unique<NoiseModule>();
     modules_[1] = std::make_unique<WobbleModule>();
@@ -29,8 +29,7 @@ RC20PluginProcessor::RC20PluginProcessor()
 
 // ── AudioProcessor ─────────────────────────────────────────────────────────────
 
-void RC20PluginProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
-{
+void RC20PluginProcessor::prepareToPlay(double sampleRate, int samplesPerBlock) {
     const juce::dsp::ProcessSpec spec{sampleRate,
                                       static_cast<juce::uint32>(samplesPerBlock),
                                       static_cast<juce::uint32>(getTotalNumOutputChannels())};
@@ -41,22 +40,19 @@ void RC20PluginProcessor::prepareToPlay(double sampleRate, int samplesPerBlock)
         module->prepare(spec);
 }
 
-void RC20PluginProcessor::releaseResources()
-{
+void RC20PluginProcessor::releaseResources() {
     for (auto& module : modules_)
         module->reset();
 }
 
-bool RC20PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const
-{
+bool RC20PluginProcessor::isBusesLayoutSupported(const BusesLayout& layouts) const {
     // Stereo in / stereo out only.
     return layouts.getMainInputChannelSet() == juce::AudioChannelSet::stereo() &&
            layouts.getMainOutputChannelSet() == juce::AudioChannelSet::stereo();
 }
 
 void RC20PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
-                                       juce::MidiBuffer& midiMessages)
-{
+                                       juce::MidiBuffer& midiMessages) {
     juce::ignoreUnused(midiMessages);
     juce::ScopedNoDenormals noDenormals;
 
@@ -79,22 +75,19 @@ void RC20PluginProcessor::processBlock(juce::AudioBuffer<float>& buffer,
 
 // ── Editor ─────────────────────────────────────────────────────────────────────
 
-juce::AudioProcessorEditor* RC20PluginProcessor::createEditor()
-{
+juce::AudioProcessorEditor* RC20PluginProcessor::createEditor() {
     return new RC20PluginEditor(*this);
 }
 
 // ── State serialisation ────────────────────────────────────────────────────────
 
-void RC20PluginProcessor::getStateInformation(juce::MemoryBlock& destData)
-{
+void RC20PluginProcessor::getStateInformation(juce::MemoryBlock& destData) {
     auto state = apvts.copyState();
     if (auto xml = state.createXml())
         copyXmlToBinary(*xml, destData);
 }
 
-void RC20PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
-{
+void RC20PluginProcessor::setStateInformation(const void* data, int sizeInBytes) {
     if (auto xml = getXmlFromBinary(data, sizeInBytes))
         if (xml->hasTagName(apvts.state.getType()))
             apvts.replaceState(juce::ValueTree::fromXml(*xml));
@@ -102,8 +95,7 @@ void RC20PluginProcessor::setStateInformation(const void* data, int sizeInBytes)
 
 // ── Parameter layout ───────────────────────────────────────────────────────────
 
-juce::AudioProcessorValueTreeState::ParameterLayout RC20PluginProcessor::createParameterLayout()
-{
+juce::AudioProcessorValueTreeState::ParameterLayout RC20PluginProcessor::createParameterLayout() {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
 
     // Helper lambdas to reduce boilerplate.
@@ -171,7 +163,6 @@ juce::AudioProcessorValueTreeState::ParameterLayout RC20PluginProcessor::createP
 
 // ── Plugin entry point (required by JUCE) ─────────────────────────────────────
 
-juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
-{
+juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter() {
     return new RC20PluginProcessor();
 }

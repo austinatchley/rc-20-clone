@@ -76,3 +76,14 @@ target_link_libraries(RC20Clone
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags
 )
+
+# ── clang-format target ────────────────────────────────────────────────────────
+find_program(CLANG_FORMAT clang-format)                                                                                                                
+if(CLANG_FORMAT)                                                                                                                                       
+    get_target_property(ALL_SOURCES RC20Clone SOURCES)                                                                                                 
+    add_custom_target(format                                                                                                                           
+        COMMAND ${CLANG_FORMAT} -i ${ALL_SOURCES}                                                                                                      
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}                                                                                                          
+        COMMENT "Running clang-format"                                                                                                                 
+    )                                                                                                                                                  
+endif()                  
