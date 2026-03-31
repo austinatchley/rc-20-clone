@@ -14,7 +14,7 @@ IndentPPDirectives: None
 ColumnLimit: 100
 
 # ── Braces ────────────────────────────────────────────────────────────────────
-BreakBeforeBraces: Allman   # opening brace always on its own line
+BreakBeforeBraces: Attach
 
 # ── Pointers and references ────────────────────────────────────────────────────
 PointerAlignment: Left      # juce::String* not juce::String *
