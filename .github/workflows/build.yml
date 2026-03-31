@@ -107,9 +107,12 @@ jobs:
           unzip pluginval_Linux.zip
           chmod +x pluginval
 
+      - name: Install xvfb
+        run: sudo apt-get install -y xvfb
+
       - name: Run pluginval
         run: |
-          ./pluginval \
+          xvfb-run ./pluginval \
             --validate "build/RC20Clone_artefacts/Release/VST3/RC-20 Clone.vst3" \
             --strictness-level 5 \
             --disabled-tests scripts/pluginval-disabled-tests.txt
