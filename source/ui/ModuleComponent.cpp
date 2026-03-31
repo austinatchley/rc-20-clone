@@ -1,28 +1,34 @@
 #include "ModuleComponent.h"
 
+static constexpr int kHeaderH = 30;
+
 ModuleComponent::ModuleComponent(const juce::String& moduleName,
                                  juce::AudioProcessorValueTreeState& apvts,
                                  const juce::String& bypassParamID,
                                  const juce::String& amountParamID,
-                                 const juce::String& modeParamID) {
+                                 const juce::String& modeParamID,
+                                 juce::Colour accentColour)
+    : lookAndFeel_(accentColour),
+      accentColour_(accentColour) {
+    setLookAndFeel(&lookAndFeel_);
+
     // ── Name label ────────────────────────────────────────────────────────────
     nameLabel_.setText(moduleName, juce::dontSendNotification);
     nameLabel_.setJustificationType(juce::Justification::centred);
-    nameLabel_.setFont(juce::FontOptions(14.0f, juce::Font::bold));
+    nameLabel_.setFont(juce::FontOptions(13.0f, juce::Font::bold));
+    nameLabel_.setColour(juce::Label::textColourId, accentColour_);
     addAndMakeVisible(nameLabel_);
 
-    // ── Bypass button ─────────────────────────────────────────────────────────
-    bypassButton_.setButtonText("On");
-    bypassButton_.setToggleState(true, juce::dontSendNotification);
+    // ── Bypass LED button ─────────────────────────────────────────────────────
+    bypassButton_.setButtonText("");
     addAndMakeVisible(bypassButton_);
 
     // ── Amount knob ───────────────────────────────────────────────────────────
     amountKnob_.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    amountKnob_.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 15);
+    amountKnob_.setTextBoxStyle(juce::Slider::NoTextBox, false, 0, 0);
     addAndMakeVisible(amountKnob_);
 
     // ── Mode combo box ────────────────────────────────────────────────────────
-    // Populate items from the AudioParameterChoice so labels always match DSP.
     if (auto* choiceParam =
             dynamic_cast<juce::AudioParameterChoice*>(apvts.getParameter(modeParamID))) {
         modeCombo_.addItemList(choiceParam->choices, 1);
@@ -38,22 +44,42 @@ ModuleComponent::ModuleComponent(const juce::String& moduleName,
         apvts, modeParamID, modeCombo_);
 }
 
-void ModuleComponent::paint(juce::Graphics& g) {
-    // Placeholder: draw a rounded border so modules are visually distinct.
-    g.setColour(juce::Colours::white.withAlpha(0.05f));
-    g.fillRoundedRectangle(getLocalBounds().toFloat().reduced(2.0f), 6.0f);
+ModuleComponent::~ModuleComponent() {
+    setLookAndFeel(nullptr);
+}
 
-    g.setColour(juce::Colours::white.withAlpha(0.2f));
-    g.drawRoundedRectangle(getLocalBounds().toFloat().reduced(2.0f), 6.0f, 1.0f);
+void ModuleComponent::paint(juce::Graphics& g) {
+    const auto b = getLocalBounds().reduced(2).toFloat();
+
+    // Panel body
+    g.setColour(RC20LookAndFeel::panel);
+    g.fillRoundedRectangle(b, 6.0f);
+
+    // Accent-tinted header band (rounded top, squared bottom)
+    g.setColour(accentColour_.withAlpha(0.15f));
+    g.fillRoundedRectangle(b.withHeight(kHeaderH), 6.0f);
+    g.fillRect(b.withTrimmedTop(kHeaderH - 6.0f).withHeight(6.0f));
+
+    // Subtle border in accent colour
+    g.setColour(accentColour_.withAlpha(0.25f));
+    g.drawRoundedRectangle(b, 6.0f, 1.0f);
 }
 
 void ModuleComponent::resized() {
-    auto area = getLocalBounds().reduced(6);
+    auto area = getLocalBounds().reduced(4);
 
-    nameLabel_.setBounds(area.removeFromTop(22));
-    bypassButton_.setBounds(area.removeFromTop(24));
-    area.removeFromTop(4);
+    // ── Header: name label + bypass LED ──────────────────────────────────────
+    auto header = area.removeFromTop(kHeaderH - 2);
+    bypassButton_.setBounds(header.removeFromRight(28));
+    nameLabel_.setBounds(header);
+
+    area.removeFromTop(6);
+
+    // ── Mode combo at bottom ──────────────────────────────────────────────────
     modeCombo_.setBounds(area.removeFromBottom(24));
-    area.removeFromBottom(4);
-    amountKnob_.setBounds(area);  // remaining space for the rotary
+    area.removeFromBottom(6);
+
+    // ── Knob: centred in remaining space ──────────────────────────────────────
+    const int side = juce::jmin(area.getWidth(), area.getHeight());
+    amountKnob_.setBounds(area.withSizeKeepingCentre(side, side));
 }

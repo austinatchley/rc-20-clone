@@ -10,32 +10,39 @@ RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
                    p.apvts,
                    ParameterIDs::noise_bypass,
                    ParameterIDs::noise_amount,
-                   ParameterIDs::noise_type),
+                   ParameterIDs::noise_type,
+                   RC20LookAndFeel::accentNoise),
       wobbleModule_("Wobble",
                     p.apvts,
                     ParameterIDs::wobble_bypass,
                     ParameterIDs::wobble_amount,
-                    ParameterIDs::wobble_mode),
+                    ParameterIDs::wobble_mode,
+                    RC20LookAndFeel::accentWobble),
       distortionModule_("Distortion",
                         p.apvts,
                         ParameterIDs::distortion_bypass,
                         ParameterIDs::distortion_amount,
-                        ParameterIDs::distortion_mode),
+                        ParameterIDs::distortion_mode,
+                        RC20LookAndFeel::accentDistortion),
       spaceModule_("Space",
                    p.apvts,
                    ParameterIDs::space_bypass,
                    ParameterIDs::space_amount,
-                   ParameterIDs::space_mode),
+                   ParameterIDs::space_mode,
+                   RC20LookAndFeel::accentSpace),
       magicModule_("Magic",
                    p.apvts,
                    ParameterIDs::magic_bypass,
                    ParameterIDs::magic_amount,
-                   ParameterIDs::magic_mode),
+                   ParameterIDs::magic_mode,
+                   RC20LookAndFeel::accentMagic),
       limitModule_("Limit",
                    p.apvts,
                    ParameterIDs::limit_bypass,
                    ParameterIDs::limit_amount,
-                   ParameterIDs::limit_mode) {
+                   ParameterIDs::limit_mode,
+                   RC20LookAndFeel::accentLimit) {
+    setLookAndFeel(&globalLookAndFeel_);
     // ── Global controls ───────────────────────────────────────────────────────
     driftLabel_.setText("Drift", juce::dontSendNotification);
     driftLabel_.setJustificationType(juce::Justification::centred);
@@ -69,8 +76,16 @@ RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
     setResizable(false, false);
 }
 
+RC20PluginEditor::~RC20PluginEditor() {
+    setLookAndFeel(nullptr);
+}
+
 void RC20PluginEditor::paint(juce::Graphics& g) {
-    g.fillAll(juce::Colour(0xff1a1a2e));  // placeholder dark background
+    g.setGradientFill(juce::ColourGradient(
+        juce::Colour(0xFF222235), 0.0f, 0.0f,
+        RC20LookAndFeel::background, 0.0f, (float)getHeight(),
+        false));
+    g.fillRect(getLocalBounds());
 }
 
 void RC20PluginEditor::resized() {

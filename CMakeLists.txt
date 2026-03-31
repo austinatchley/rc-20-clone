@@ -56,6 +56,7 @@ target_sources(RC20Clone
         source/modules/LimitModule.cpp
         source/ui/ModuleComponent.cpp
         source/ui/PresetSelector.cpp
+        source/ui/RC20LookAndFeel.cpp
 )
 
 # ── Compile definitions ────────────────────────────────────────────────────────

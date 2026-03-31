@@ -6,6 +6,7 @@
 #include "PluginProcessor.h"
 #include "ui/ModuleComponent.h"
 #include "ui/PresetSelector.h"
+#include "ui/RC20LookAndFeel.h"
 
 /**
  * Main plugin editor.
@@ -13,19 +14,21 @@
  * Layout (top to bottom):
  *   [Preset selector bar + global Drift knob + Output knob]
  *   [Noise | Wobble | Distortion | Space | Magic | Limit]
- *
  */
 class RC20PluginEditor final : public juce::AudioProcessorEditor
 {
   public:
     explicit RC20PluginEditor(RC20PluginProcessor& processor);
-    ~RC20PluginEditor() override = default;
+    ~RC20PluginEditor() override;
 
     void paint(juce::Graphics& g) override;
     void resized() override;
 
   private:
     RC20PluginProcessor& processor_;
+
+    // Declared first — must outlive all child components.
+    RC20LookAndFeel globalLookAndFeel_;
 
     // ── Top bar ───────────────────────────────────────────────────────────────
     PresetSelector presetSelector_;
