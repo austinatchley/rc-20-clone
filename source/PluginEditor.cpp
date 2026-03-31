@@ -2,6 +2,8 @@
 
 #include "parameters/ParameterIDs.h"
 
+static constexpr int kTopBarH = 68;
+
 RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
     : AudioProcessorEditor(&p),
       processor_(p),
@@ -46,13 +48,15 @@ RC20PluginEditor::RC20PluginEditor(RC20PluginProcessor& p)
     // ── Global controls ───────────────────────────────────────────────────────
     driftLabel_.setText("Drift", juce::dontSendNotification);
     driftLabel_.setJustificationType(juce::Justification::centred);
+    driftLabel_.setColour(juce::Label::textColourId, RC20LookAndFeel::textMuted);
     driftSlider_.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    driftSlider_.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 15);
+    driftSlider_.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 14);
 
     outputLabel_.setText("Output", juce::dontSendNotification);
     outputLabel_.setJustificationType(juce::Justification::centred);
+    outputLabel_.setColour(juce::Label::textColourId, RC20LookAndFeel::textMuted);
     outputSlider_.setSliderStyle(juce::Slider::RotaryHorizontalVerticalDrag);
-    outputSlider_.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 15);
+    outputSlider_.setTextBoxStyle(juce::Slider::TextBoxBelow, false, 50, 14);
 
     driftAttachment_ = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>(
         p.apvts, ParameterIDs::drift, driftSlider_);
@@ -81,32 +85,40 @@ RC20PluginEditor::~RC20PluginEditor() {
 }
 
 void RC20PluginEditor::paint(juce::Graphics& g) {
-    g.setGradientFill(juce::ColourGradient(
-        juce::Colour(0xFF222235), 0.0f, 0.0f,
-        RC20LookAndFeel::background, 0.0f, (float)getHeight(),
-        false));
+    g.setGradientFill(juce::ColourGradient(juce::Colour(0xFF222235),
+                                           0.0f,
+                                           0.0f,
+                                           RC20LookAndFeel::background,
+                                           0.0f,
+                                           (float)getHeight(),
+                                           false));
     g.fillRect(getLocalBounds());
+
+    // Separator between top bar and module strip
+    const int sepY = 8 + kTopBarH + 4;
+    g.setColour(juce::Colours::white.withAlpha(0.08f));
+    g.drawHorizontalLine(sepY, 8.0f, (float)(getWidth() - 8));
 }
 
 void RC20PluginEditor::resized() {
     auto area = getLocalBounds().reduced(8);
 
     // ── Top bar ───────────────────────────────────────────────────────────────
-    auto topBar = area.removeFromTop(50);
+    auto topBar = area.removeFromTop(kTopBarH);
 
-    // Global knobs on the right
-    auto outputArea = topBar.removeFromRight(65);
-    outputLabel_.setBounds(outputArea.removeFromTop(18));
+    // Global knobs on the right (label + rotary + text box)
+    auto outputArea = topBar.removeFromRight(70);
+    outputLabel_.setBounds(outputArea.removeFromTop(16));
     outputSlider_.setBounds(outputArea);
 
-    auto driftArea = topBar.removeFromRight(65);
-    driftLabel_.setBounds(driftArea.removeFromTop(18));
+    auto driftArea = topBar.removeFromRight(70);
+    driftLabel_.setBounds(driftArea.removeFromTop(16));
     driftSlider_.setBounds(driftArea);
 
     topBar.removeFromRight(8);
     presetSelector_.setBounds(topBar);
 
-    area.removeFromTop(8);
+    area.removeFromTop(10);
 
     // ── Module strip ──────────────────────────────────────────────────────────
     const int moduleWidth = area.getWidth() / 6;

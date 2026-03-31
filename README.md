@@ -4,7 +4,7 @@ A multi-effect audio plugin inspired by XLN Audio's RC-20 Retro Color, built wit
 
 **Signal chain:**  Noise → Wobble → Distortion → Space → Magic → Limit
 
-> **Status:** Phase 1 complete — the plugin loads, passes audio cleanly, and exposes the full parameter tree. DSP for each module is stubbed; implementation is in progress.
+> **Status:** Phases 1–3 complete — the plugin loads, passes audio cleanly, has full DSP per module, and a custom painted UI with per-module accent colours.
 
 ---
 
@@ -204,7 +204,7 @@ Each preset is a full APVTS state snapshot. Use the **Save** / **Load** buttons 
 
 - [x] **Phase 1** — Plugin shell: APVTS parameter tree, module architecture, placeholder UI, DriftGenerator and ModulatedDelayLine stubs
 - [x] **Phase 2** — DSP implementation per module (Noise → Wobble → Distortion → Space → Magic → Limit)
-- [ ] **Phase 3** — Custom UI (bespoke painted controls, LookAndFeel, visual feedback)
+- [x] **Phase 3** — Custom UI (bespoke painted controls, LookAndFeel, visual feedback)
 - [ ] **Phase 4** — Polish (factory presets, Randomize function, pluginval level 10, performance profiling)
 
 ---

@@ -47,6 +47,8 @@ class RC20LookAndFeel final : public juce::LookAndFeel_V4
 
     void drawPopupMenuBackground(juce::Graphics&, int w, int h) override;
 
+    juce::Font getComboBoxFont(juce::ComboBox&) override;
+
   private:
     juce::Colour accent_;
 };

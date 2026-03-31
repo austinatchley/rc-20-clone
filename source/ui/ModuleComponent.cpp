@@ -8,8 +8,7 @@ ModuleComponent::ModuleComponent(const juce::String& moduleName,
                                  const juce::String& amountParamID,
                                  const juce::String& modeParamID,
                                  juce::Colour accentColour)
-    : lookAndFeel_(accentColour),
-      accentColour_(accentColour) {
+    : lookAndFeel_(accentColour), accentColour_(accentColour) {
     setLookAndFeel(&lookAndFeel_);
 
     // ── Name label ────────────────────────────────────────────────────────────

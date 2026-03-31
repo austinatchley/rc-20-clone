@@ -212,7 +212,7 @@ good reason.
 |-------|-----------------------------------------------------|-------------|
 | 1     | Plugin shell — APVTS tree, stubs, placeholder UI    | Complete    |
 | 2     | DSP implementation per module                       | Complete    |
-| 3     | Custom painted UI + LookAndFeel                     | Not started |
+| 3     | Custom painted UI + LookAndFeel                     | Complete    |
 | 4     | Polish — factory presets, Randomize, perf profiling | Not started |
 
 ### Phase 2 implementation order
