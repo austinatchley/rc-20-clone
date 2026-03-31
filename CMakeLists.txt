@@ -87,4 +87,15 @@ if(CLANG_FORMAT)
         WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}                                                                                                          
         COMMENT "Running clang-format"                                                                                                                 
     )                                                                                                                                                  
-endif()                  
+endif()
+
+# ── pluginval target ───────────────────────────────────────────────────────────
+find_program(PLUGINVAL pluginval)
+if(PLUGINVAL)
+    add_custom_target(pluginval
+        COMMAND ${PLUGINVAL}
+            --validate "${CMAKE_BINARY_DIR}/RC20Clone_artefacts/$<CONFIG>/VST3/RC-20 Clone.vst3"
+            --strictness-level 5
+        COMMENT "Running pluginval"
+    )
+endif()
