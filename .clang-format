@@ -1,13 +1,13 @@
 ---
 Language: Cpp
-BasedOnStyle: LLVM
+BasedOnStyle: Google
 
 # ── Indentation ────────────────────────────────────────────────────────────────
 IndentWidth: 4
 ContinuationIndentWidth: 4
 TabWidth: 4
 UseTab: Never
-IndentCaseLabels: false
+IndentCaseLabels: true 
 IndentPPDirectives: None
 
 # ── Line length ────────────────────────────────────────────────────────────────
@@ -20,7 +20,7 @@ BreakBeforeBraces: Allman   # opening brace always on its own line
 PointerAlignment: Left      # juce::String* not juce::String *
 
 # ── Includes ──────────────────────────────────────────────────────────────────
-SortIncludes: false         # we manage include order manually
+SortIncludes: true
 
 # ── Spacing ───────────────────────────────────────────────────────────────────
 SpaceAfterCStyleCast: false
