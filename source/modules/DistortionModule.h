@@ -10,13 +10,6 @@
  *   Tube        — warm even-order distortion with slight asymmetry (DC offset)
  *   Transistor  — harsher odd-order clipping, more aggressive tone
  *
- * Implementation notes (Phase 2):
- *   - 4x oversampling on all nonlinear stages to suppress aliasing
- *   - tanh() waveshaper as baseline; each mode shapes the curve differently
- *   - Output gain compensation so perceived loudness stays constant vs. amount
- *   - Mode crossfades over ~10 ms to prevent clicks on mode changes
- *
- * Phase 1: parameter binding only.  DSP stubbed — audio passes through.
  */
 class DistortionModule final : public EffectModule
 {

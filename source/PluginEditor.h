@@ -14,8 +14,6 @@
  *   [Preset selector bar + global Drift knob + Output knob]
  *   [Noise | Wobble | Distortion | Space | Magic | Limit]
  *
- * Phase 1: all controls are placeholder JUCE widgets wired to APVTS.
- * Phase 2: replace with bespoke painted components, custom LookAndFeel.
  */
 class RC20PluginEditor final : public juce::AudioProcessorEditor
 {

@@ -203,7 +203,7 @@ Each preset is a full APVTS state snapshot. Use the **Save** / **Load** buttons 
 ## Project roadmap
 
 - [x] **Phase 1** — Plugin shell: APVTS parameter tree, module architecture, placeholder UI, DriftGenerator and ModulatedDelayLine stubs
-- [ ] **Phase 2** — DSP implementation per module (Noise → Wobble → Distortion → Space → Magic → Limit)
+- [x] **Phase 2** — DSP implementation per module (Noise → Wobble → Distortion → Space → Magic → Limit)
 - [ ] **Phase 3** — Custom UI (bespoke painted controls, LookAndFeel, visual feedback)
 - [ ] **Phase 4** — Polish (factory presets, Randomize function, pluginval level 10, performance profiling)
 

@@ -9,7 +9,6 @@
  *   VinylCrackle  — Poisson-distributed random impulses
  *   ElectricalHum — 50/60 Hz sine with harmonics
  *
- * Phase 1: parameter binding only.  DSP stubbed — audio passes through.
  */
 class NoiseModule final : public EffectModule
 {

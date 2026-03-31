@@ -10,16 +10,6 @@
  *   Hall   — large reflective space; longer decay
  *   Plate  — dense, bright metallic reverb character
  *
- * Implementation notes (Phase 2):
- *   - BBD-style delay path with a darkening lowpass in the feedback loop
- *   - Schroeder reverb topology: parallel comb filters into series allpass
- *   - Delay line lengths are mutually prime to prevent metallic resonances
- *   - Modulated delay lines in the reverb prevent static metallic ringing
- *   - Pitch-bend interpolation on delay time changes (same ModulatedDelayLine)
- *   - size  controls decay time / room scale
- *   - tone  controls high-frequency damping (lowpass cutoff in feedback)
- *
- * Phase 1: parameter binding only.  DSP stubbed — audio passes through.
  */
 class SpaceModule final : public EffectModule
 {

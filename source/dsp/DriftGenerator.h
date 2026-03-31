@@ -4,17 +4,13 @@
 /**
  * Produces a slowly evolving modulation signal in [0, 1].
  *
- * Design intent (Phase 2)
- * -----------------------
- * Several sine LFOs at slightly different rates (e.g. 0.3, 0.7, 1.1 Hz) are
+ * Several sine LFOs at slightly different rates (0.3, 0.7, 1.1 Hz) are
  * summed with a small amount of band-limited noise, then normalised.  This
  * avoids the mechanical periodicity of a single-LFO drift source and mimics
  * the organic instability of real tape/vinyl playback.
  *
  * The output is scaled by the global "drift" parameter and injected into every
  * module's ProcessContext so they all respond to the same instability signal.
- *
- * Phase 1: prepare/reset wired up; process() returns 0 (no instability).
  */
 class DriftGenerator
 {

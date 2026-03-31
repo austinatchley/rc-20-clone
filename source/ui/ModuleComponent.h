@@ -14,7 +14,6 @@
  * All controls are wired to APVTS via attachment objects so automation and
  * preset recall work immediately with no extra plumbing.
  *
- * Phase 2: replace placeholder Slider/ComboBox with bespoke painted controls.
  */
 class ModuleComponent final : public juce::Component
 {

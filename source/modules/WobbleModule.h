@@ -13,7 +13,6 @@
  * Uses a ModulatedDelayLine with cubic Hermite interpolation per channel.
  * Drift input from ProcessContext biases the LFO phase/depth.
  *
- * Phase 1: parameter binding and delay line allocation only.  No DSP.
  */
 class WobbleModule final : public EffectModule
 {

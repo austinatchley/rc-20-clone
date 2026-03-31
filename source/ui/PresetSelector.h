@@ -9,8 +9,8 @@
  * Serialisation uses APVTS XML via getStateInformation / setStateInformation,
  * stored as individual .xml files in the user's app data directory.
  *
- * Phase 1: UI laid out and wired up.  File I/O is functional but basic —
- * no preset browser, no factory presets, no undo for overwrites.
+ * File I/O is functional but basic — no preset browser, no factory presets,
+ * no undo for overwrites.
  */
 class PresetSelector final : public juce::Component
 {

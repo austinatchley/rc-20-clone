@@ -9,14 +9,6 @@
  *   Medium  — gentle glue compression character
  *   Hard    — aggressive peak limiting with audible saturation on transients
  *
- * Implementation notes (Phase 2):
- *   - Attack/release envelope follower with smoothed gain reduction
- *   - Soft knee: gain reduction eases in over a configurable knee width
- *   - Output saturation (tanh) at higher amount settings adds glue rather
- *     than a hard ceiling — pushing the limiter should sound musical
- *   - Amount knob controls threshold (high amount = lower threshold = more limiting)
- *
- * Phase 1: parameter binding only.  DSP stubbed — audio passes through.
  */
 class LimitModule final : public EffectModule
 {

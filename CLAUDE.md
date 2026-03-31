@@ -211,7 +211,7 @@ good reason.
 | Phase | Description                                         | Status      |
 |-------|-----------------------------------------------------|-------------|
 | 1     | Plugin shell — APVTS tree, stubs, placeholder UI    | Complete    |
-| 2     | DSP implementation per module                       | Not started |
+| 2     | DSP implementation per module                       | Complete    |
 | 3     | Custom painted UI + LookAndFeel                     | Not started |
 | 4     | Polish — factory presets, Randomize, perf profiling | Not started |
 

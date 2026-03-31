@@ -12,7 +12,6 @@
  * The amount knob sweeps from clean through progressively heavier degradation.
  * Drift modulates the effective bit depth / sample rate for organic instability.
  *
- * Phase 1: parameter binding only.  DSP stubbed — audio passes through.
  */
 class MagicModule final : public EffectModule
 {

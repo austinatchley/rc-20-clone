@@ -16,7 +16,6 @@
  * surrounding samples to fit a smooth curve, trading slightly more compute for
  * clean modulated-delay artefacts.
  *
- * Phase 1: class interface and buffer management only.  DSP is stubbed.
  */
 class ModulatedDelayLine
 {
